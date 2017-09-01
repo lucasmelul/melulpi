@@ -1,3 +1,4 @@
+![Logo of the project](https://github.com/lucasmelul/melulpi/blob/master/UP.png?raw=true)
 # melulpi
 
 Proyecto desarrollado para la materia "Arquitectura Web" de la Universidad de Palermo a cargo del profesor Diego Marafetti.
