@@ -13,7 +13,7 @@ Descripcion del Proyecto:
 El proyecto contempla la utilización de las herramientas, tecnologías y buenas prácticas desarrolladas durante la cursada.
 El mismo ha de incluír la utilización de Angular.js + Node.js + MongoDB como stack para el desarrollo de una RESTfull web app con un 'CRUD' y una API para el acceso a los correspondientes recursos del sistema.
 
-La temática elegida es un software de gestión de turnos e historia clínica (con recursos básicos) para la implementación en clínicas pequeñas, consultorios y laboratorios, pudiendo ser integrada con APIs de geolocalización.
+La temática elegida es un software de gestión de cupones y descuentos (con recursos básicos) para la implementación en distintas empresas, comercios, negocios y servicios pudiendo ser integrada con APIs de geolocalización.
 
 ### Installation & Build
 
@@ -27,27 +27,48 @@ TBD
 
 Los features contemplados para la herramienta son:
   * Rol Admin:
-    * Creacion Entidad Clinica / Consultorio
-    * ABM Usuarios del sistema
-    * Relacion y Entidades
-  * Rol Médico:
-    * Consulta de Agenda
-    * Consulta de Pacientes
-  * Rol Paciente:
-    * Consulta Agenda médico
-    * Reserva de Turno
-    * Consulta Historia Clinica
+    * Destacar descuentos
+    * Consultar Empresas
+    * Consultar Usuarios
+  * Rol Cliente:
+    * Consultar de Descuentos (por geolocalización o por categoria)
+    * Consultar Mis Descuentos
+    * Comprar Descuentos
+  * Rol Empresa:
+    * Publicar Descuento
+    * Consultar Descuentos (por geolocalización o por categoria)
 
 ### Resources
 
 Algunos de los resources pensados:
 
-  - URL/pacientes
-  - URL/pacientes/id/turnos
-  - URL/pacientes/id/historiac
-  - URL/medicos
-  - URL/medicos/id/agenda
-
+  * URL/descuentos 
+    * GET (Rol Cliente/Empresa)
+      * ?categ='gastronomia'&lat=2363576434&long=252352462
+    * POST (Rol Empresa)
+  * URL/descuentos/{id} (Rol Empresa/Admin)
+    * PUT 
+    * DELETE  
+    
+  * URL/usuarios
+    * GET (Rol Admin)
+    * POST (Rol Cliente)
+  * URL/usuarios/{id}
+    * GET (Rol Empresa)
+  * URL/usuarios/me
+    * GET (Rol CLiente)
+    * PUT (Rol Cliente)
+  * URL/usuarios/me/descuentos
+    * GET (Rol CLiente)
+    * POST (Rol Cliente)
+    
+  * URL/empresas/
+    * GET (Rol Cliente/Empresa/Admin)
+    * POST (Rol Empresa)
+  * URL/empresas/{id}
+    * GET (Rol Cliente/Empresa/Admin)
+    * PUT (Rol Empresa)
+ 
 ### Licensing
 
 TBD
