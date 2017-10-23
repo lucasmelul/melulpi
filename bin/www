@@ -5,7 +5,11 @@
  */
 
 var app = require('../app');
+<<<<<<< HEAD
 var debug = require('debug')('melulpi:server');
+=======
+var debug = require('debug')('myapp:server');
+>>>>>>> e63562ee49dfa28f9274191f6b57c33d824b7ee7
 var http = require('http');
 
 /**
