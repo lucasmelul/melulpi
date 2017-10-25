@@ -9,12 +9,29 @@ var async = require('async');
 
 exports.descuentos_list = function(req, res, next){
 
-	Descuentos.find({}, 'title description')
-	.populate('title')
-	.populate('description')
+	Descuentos.find({}, 'title description category')
 	.exec(function (err, list_descuentos) {
 		if (err) { return next(err); }
 		res.json('descuentos_list', {title: 'Listado de Descuentos', descuentos_list: list_descuentos});
+	});
+};
+
+
+exports.descuentos_list_categ = function(req, res, next){
+
+	Descuentos.find({'category': req.query.categ }, 'title description')
+	.exec(function (err, list_descuentos) {
+		if (err) { return next(err); }
+		res.json('descuentos_list', {title: 'Listado de Descuentos', descuentos_list: list_descuentos});
+	});
+};
+
+exports.descuentos_detail = function(req, res, next){
+
+	Descuentos.findById(req.params.id)
+	.exec(function(err, descuento_detail){
+		if (err) { return next(err); }
+		res.json('detail_descuento', {title: 'Listado de Descuentos', detail_descuento: descuento_detail});
 	});
 };
 
@@ -26,7 +43,7 @@ exports.descuentos_create = function(req, res, next){
 	req.checkBody('category', 'Street must not be empty.').notEmpty();
 	req.checkBody('stock', 'Name must not be empty.').notEmpty();
 
-	var descuentos = new descuentos(
+	var descuentos = new Descuentos(
 	{
 		title: req.body.title,
 		description: req.body.description,

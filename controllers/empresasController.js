@@ -7,8 +7,8 @@ var async = require('async');
 
 exports.empresas_list = function(req, res, next){
 
-	Empresas.find({}, 'name loc ')
-	.populate('name')
+	Empresas.find()
+	.sort([['name', 'ascending']])
 	.exec(function (err, list_empresas) {
 		if (err) { return next(err); }
 		res.json('empresas_list', {title: 'Listado de Empresas', empresas_list: list_empresas});
@@ -21,18 +21,16 @@ exports.empresas_detail = function(req, res, next){
 		empresas: function(callback) {
 
 			Empresas.findById(req.params.id)
-			.populate('name')
-			.populate('country')
-			.populate('state')
-			.populate('street')
-			.populate('loc')
-			exec(callback);	
+			.exec(callback);	
 		},
 
 		descuentos: function(callback){
 
-			Descuentos.find({ 'empresas': req.params.id})
-			exec(callback);
+		//	Descuentos.findById({ 'empresa' : req.params.id})
+			Descuentos.find({'empresa' : req.params.id})
+			.exec(callback);
+
+
 		},
 	}, function(err, results){
 		if (err) {return next(err); }
@@ -48,7 +46,6 @@ exports.empresas_create = function(req, res, next){
 	req.checkBody('state', 'State must not be empty.').notEmpty();
 	req.checkBody('street', 'Street must not be empty.').notEmpty();
 	req.checkBody('zipcode', 'Name must not be empty.').notEmpty();
-	req.checkBody('loc', 'GeoLocation must not be empty.').notEmpty();
 
 
 	var empresas = new Empresas(
@@ -59,7 +56,7 @@ exports.empresas_create = function(req, res, next){
 		state: req.body.state,
 		street: req.body.street,
 		zipcode: req.body.zipcode,
-		loc: req.body.loc
+		loc:  (typeof req.body.loc==='undefined') ? [] : req.body.loc.split(",")
 	});
 	console.log('Empresa:' +empresas);
 
@@ -84,23 +81,25 @@ exports.empresas_delete = function(req, res, next){
 			Empresas.findById(req.params.id).exec(callback)
 		},
 		empresas_descuentos: function(callback) {
-			Descuentos.find({ 'empresas': req.params.id }).exec(callback)			
+			Descuentos.find({ 'empresa': req.params.id }).exec(callback)			
 		},
 	}, function(err, results){
 		if (err) { return next(err); }
-		if (results.empresas_descuentos.lenght > 0) {
-			res.json('empresas_delete', {title: 'Delete empresas', empresas: results.empresas, empresas_descuentos: results.empresas_descuentos} );
-				return;
 
-		}
-		else {
-			Empresas.findByIdAndRemove(req.body.empresasid, function deleteEmpresas(err){
+		if (!results.empresas_descuentos.lenght) { //> 0) {
+			Empresas.findByIdAndRemove(req.params.id, function deleteEmpresas(err){
+				console.log(req.params.id);
 				if (err) { return next (err); }
-				res.redirect('/empresas')
-			})
-		}
-	});
-};
+				res.redirect(303, '/empresas');
+		});
+	}
+		else {
+				res.json('empresas_delete', {title: 'Delete empresas', empresas: results.empresas, empresas_descuentos: results.empresas_descuentos} );
+				return;
+			}
+		});
+	};
+
 
 
 exports.empresas_update = function(req, res, next){

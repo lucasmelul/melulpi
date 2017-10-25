@@ -1,3 +1,4 @@
+//express vars
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -15,7 +16,10 @@ var usuarios = require('./routes/usuarios');
 var descuentos = require('./routes/descuentos');
 var empresas = require('./routes/empresas');
 
+// Login EndPoint - jwt
+var login = require('./routes/login');
 
+// compression para rutas
 var compression = require('compression');
 var helmet = require('helmet');
 
@@ -35,8 +39,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-
-
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -64,6 +67,14 @@ app.use('/usuarios', usuarios); //usuarios middleware
 app.use('/descuentos', descuentos); // descuentos middleware
 
 
+// jwt
+app.use('/login', login); //LOGIN MIDDLEWARE
+
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', index);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

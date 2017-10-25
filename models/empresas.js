@@ -10,7 +10,7 @@ var EmpresasSchema = Schema(
 		state: {type: String, required: true, max: 100},
 		street: {type: String, required: true, max: 100},
 		zipcode: {type: String, required: true, max: 100},
-		loc: {type: [Number], index: '2d', required: true }
+		loc: {type: [Number], index: '2d', required: false }
 	});
 
 

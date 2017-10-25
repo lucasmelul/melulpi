@@ -48,8 +48,6 @@ exports.empresas_create = function(req, res, next){
 	req.checkBody('state', 'State must not be empty.').notEmpty();
 	req.checkBody('street', 'Street must not be empty.').notEmpty();
 	req.checkBody('zipcode', 'Name must not be empty.').notEmpty();
-	req.checkBody('loc', 'GeoLocation must not be empty.').notEmpty();
-
 
 	var empresas = new Empresas(
 	{
@@ -59,7 +57,7 @@ exports.empresas_create = function(req, res, next){
 		state: req.body.state,
 		street: req.body.street,
 		zipcode: req.body.zipcode,
-		loc: req.body.zipcode
+		loc:  (typeof req.body.loc==='undefined') ? [] : req.body.loc.split(",")
 	});
 	console.log('Empresa:' +empresas);
 

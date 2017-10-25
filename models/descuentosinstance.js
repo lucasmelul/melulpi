@@ -4,7 +4,7 @@ var moment = require('moment');
 var Schema = mongoose.Schema;
 
 var DescuentosInstanceSchema = Schema({
-	decuento: {type: Schema.ObjectId, ref: 'Descuentos', required: true},
+	descuento: {type: Schema.ObjectId, ref: 'Descuentos', required: true},
 	usuario: {type: Schema.ObjectId, ref: 'Usuarios', required: true},
 	status: {type: String, required: true, enum:['Disponible', 'Utilizado'], default: 'Disponible'},
 	buy_date: {type: Date, default: Date.now}

@@ -7,6 +7,9 @@ var UsuariosSchema = Schema(
 		email: {type: String, required: true, max: 50},
 		first_name: {type: String, required: true, max: 20},
 		family_name: {type: String, required: true, max: 20},
+		// JWT + Login
+		password: {type: String, required: true},
+		//
 		dni: {type: Number, required: true},
 		country: {type: String, required: true, max: 100},
 		state: {type: String, required: true, max: 100},
