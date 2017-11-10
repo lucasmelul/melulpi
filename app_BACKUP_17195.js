@@ -4,15 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-<<<<<<< HEAD
 var expressValidator = require('express-validator');
-=======
->>>>>>> e63562ee49dfa28f9274191f6b57c33d824b7ee7
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-<<<<<<< HEAD
 //endpoints
 
 var usuarios = require('./routes/usuarios');
@@ -42,25 +38,17 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 
-=======
-var app = express();
-
->>>>>>> e63562ee49dfa28f9274191f6b57c33d824b7ee7
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> e63562ee49dfa28f9274191f6b57c33d824b7ee7
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-<<<<<<< HEAD
 app.use(expressValidator() );
 
 app.use(cookieParser());
@@ -76,13 +64,6 @@ app.use('/usuarios', usuarios); //usuarios middleware
 app.use('/descuentos', descuentos); // descuentos middleware
 
 
-=======
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', index);
-app.use('/users', users);
->>>>>>> e63562ee49dfa28f9274191f6b57c33d824b7ee7
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

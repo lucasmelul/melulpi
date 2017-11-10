@@ -11,6 +11,7 @@ exports.empresas_list = function(req, res, next){
 	.sort([['name', 'ascending']])
 	.exec(function (err, list_empresas) {
 		if (err) { return next(err); }
+		console.log(list_empresas);
 		res.json('empresas_list', {title: 'Listado de Empresas', empresas_list: list_empresas});
 	});
 };
