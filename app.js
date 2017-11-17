@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -33,8 +34,15 @@ app.use(helmet());
 //Set up mongoose connection
 var mongoose = require('mongoose');
 var dev_db_url = 'mongodb://mproot:newpass1@ds111565.mlab.com:11565/melulpiup' // https://mlab.com
-var mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB);
+var mongo_local = 'mongodb://127.0.0.1/descuentapp';
+var mongoDB = mongo_local || dev_db_url;
+//mongoose.connect(mongoDB);
+//var db = mongoose.connection;
+mongoose.connect(mongoDB, {
+  useMongoClient: true
+});
+
+//Get the default connection
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -46,6 +54,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 
+
+// use it before all route definitions
+app.use(cors({origin: 'http://localhost:8100'}));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

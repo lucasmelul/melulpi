@@ -6,12 +6,11 @@ var DescuentosInstance = require('../models/descuentosinstance');
 var async = require('async');
 
 exports.empresas_list = function(req, res, next){
-
 	Empresas.find()
 	.sort([['name', 'ascending']])
 	.exec(function (err, list_empresas) {
 		if (err) { return next(err); }
-		res.json('empresas_list', {title: 'Listado de Empresas', empresas_list: list_empresas});
+		res.json({empresas_list: list_empresas});
 	});
 };
 
@@ -34,13 +33,13 @@ exports.empresas_detail = function(req, res, next){
 		},
 	}, function(err, results){
 		if (err) {return next(err); }
-		res.json('empresas_detail', {name: 'Name', empresas: results.empresas, descuentos: results.descuentos} );
+		res.json({empresas_detail: results.empresas, descuentos: results.descuentos});
 	});
 };
 
 
 exports.empresas_create = function(req, res, next){
-
+	console.log(req.body);
 	req.checkBody('name', 'Name must not be empty.').notEmpty();
 	req.checkBody('country', 'Country must not be empty.').notEmpty();
 	req.checkBody('state', 'State must not be empty.').notEmpty();
@@ -123,8 +122,9 @@ exports.empresas_update = function(req, res, next){
 		loc: req.body.zipcode
 	}
 	);
-	if (err) {
-		res.json('empresas_update', {title: 'Update Empresas', empresas: empresas, errors: errors});
+	var errors = req.validationErrors();
+	if (errors) {
+		res.json({empresas_update: {empresas: empresas, errors: errors}});
 		return;
 	}
 	else {
