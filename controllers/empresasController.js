@@ -2,6 +2,7 @@ var Empresas = require('../models/empresas');
 var Usuarios = require('../models/usuarios');
 var Descuentos = require('../models/descuentos');
 var DescuentosInstance = require('../models/descuentosinstance');
+var _ = require('lodash');
 
 var async = require('async');
 
@@ -110,29 +111,18 @@ exports.empresas_update = function(req, res, next){
 	req.checkBody('zipcode', 'Name must not be empty.').notEmpty();
 	req.checkBody('loc', 'GeoLocation must not be empty.').notEmpty();
 
-
-	var empresas = new Empresas(
-	{
+	var empresas = {
 		name: req.body.name,
-		cuit:  (typeof req.body.cuit==='undefined') ? [] : req.body.cuit.split(","),
+		cuit:  req.body.cuit,
 		country: req.body.country,
 		state: req.body.state,
 		street: req.body.street,
-		zipcode: req.body.zipcode,
-		loc: req.body.zipcode
-	}
-	);
-	var errors = req.validationErrors();
-	if (errors) {
-		res.json({empresas_update: {empresas: empresas, errors: errors}});
-		return;
-	}
-	else {
-       	empresas.findByIdAndUpdate(req.params.id, author, {}, function(err, laempresa){
-        		if (err) { return next(err); }
-        		res.redirect(laempresas.url);
-        	});
-        }
+		zipcode: req.body.zipcode
+	};
 
-};
+	Empresas.findByIdAndUpdate(req.params.id, { $set: empresas }, function (err, empresa) {
+		if (err) res.sendStatus(400);
+		res.json(empresa);
+	});
+}
 

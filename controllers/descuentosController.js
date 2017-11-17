@@ -12,7 +12,7 @@ exports.descuentos_list = function(req, res, next){
 	Descuentos.find({}, 'title description category')
 	.exec(function (err, list_descuentos) {
 		if (err) { return next(err); }
-		res.json('descuentos_list', {title: 'Listado de Descuentos', descuentos_list: list_descuentos});
+		res.json({descuentos_list: list_descuentos});
 	});
 };
 
